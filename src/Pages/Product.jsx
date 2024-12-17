@@ -1,11 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import SingleCardDetails from "./SingleCardDetails"; 
 const Product = () => {
   const [productData, setProductData] = useState(null);
-  const navigate = useNavigate()
-
+  const [selectedProduct, setSelectedProduct] = useState(null); 
 
   useEffect(() => {
     axios("https://fakestoreapi.com/products")
@@ -18,17 +16,20 @@ const Product = () => {
       });
   }, []);
 
-  const checkDetails = (item) => {
-    navigate(`/singleCardDetails/${item.id}`)
-  }
+  const openModal = (product) => {
+    setSelectedProduct(product); 
+  };
 
+  const closeModal = () => {
+    setSelectedProduct(null); 
+  };
 
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12">
         {productData ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl px-4">
-            {productData.map((item, id) => (
+            {productData.map((item) => (
               <div
                 key={item.id}
                 className="bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between"
@@ -50,7 +51,7 @@ const Product = () => {
                   </p>
                   <button
                     className="mt-auto w-full bg-blue-500 text-white py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300"
-                    onClick={() => checkDetails(item)}
+                    onClick={() => openModal(item)} 
                   >
                     Check Details
                   </button>
@@ -64,6 +65,11 @@ const Product = () => {
           </h1>
         )}
       </div>
+
+      <SingleCardDetails
+        product={selectedProduct}
+        closeModal={closeModal}
+      />
     </>
   );
 };

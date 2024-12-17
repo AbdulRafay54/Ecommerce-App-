@@ -35,14 +35,9 @@ const router = createBrowserRouter(
           element: <Product/>
         },
         {
-          path: "singleCardDetails/:id",
-          element:  <SingleCardDetails/>
+          path: "/cart",
+          element: <Product/>
         },
-        {
-          path: "*",
-          element: <h1>Not Found!</h1>
-        }
-        
       ]
     }
   ]
